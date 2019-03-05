@@ -1,15 +1,36 @@
-//
-//  main.cpp
-//  CMP305-LAB5
-//
-//  Created by Mohamed Nagaty on 3/5/19.
-//  Copyright © 2019 Mohamed Nagaty. All rights reserved.
-//
-
 #include <iostream>
+#include "UnsortedType.hpp"
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+int main() {
+    
+    UnsortedType list;
+    ItemType item;
+
+    for(int i = 0; i < 10; i++)
+        list.InsertItem(i);
+
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+    list.GetNextItem(item);
+    std::cout << item << "\n";
+
     return 0;
 }

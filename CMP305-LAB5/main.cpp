@@ -30,13 +30,6 @@ int main() {
     std::cout << "| between list 1 and 2: ";
     list3.printList();
 
-    list3.MakeEmpty();
-
-    list3.printList();
-    std::cout << list3.Length();
-
-
-
     return 0;
 }
 

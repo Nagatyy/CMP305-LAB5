@@ -14,8 +14,6 @@ UnsortedType::~UnsortedType(){
 void  UnsortedType::MakeEmpty(){
     
     deleteList();
-    length = 0;
-    listData = NULL;
     currentPos = listData;
     
 }
@@ -63,33 +61,33 @@ void  UnsortedType::InsertItem(ItemType item){
     
 }
 void  UnsortedType::DeleteItem(ItemType item){
-    // first check if the item exists
-    int index;
-    bool found = itemExists(item, index);
+    NodeType* location = listData;
     
-    // if the item is found, delete it
-    if(found){
-        NodeType* temp = listData;
-        
-        // Extreme Case 1: If there is only 1 item in the list (code below throws error if this is not checked)
-        if(temp -> next == NULL){
-            MakeEmpty();
-        }
-        
-        else{
-            while(temp -> next -> info != item) // keep looping and stop temp BEFORE the node with the item we will delete
-                temp = temp -> next;
-            
-            // now that temp is pointing at the item BEFORE the one we will deleted:
-            temp -> next = temp -> next -> next;
-            delete temp;
-            length--;
-        }
-        
+    if (location->info == item)
+    {
+        listData = location->next;
+        delete location;
+        length--;
+        return;
     }
-    else
-        std::cout << "Deletion failed. Item does not exist...\n";
+    NodeType* tloc;
+    while (location->next != NULL)
+    {
+        tloc = location->next;
+        if (tloc->info == item)
+        {
+            location->next = tloc->next;
+            delete tloc;
+            length--;
+            return;
+        }
+        else{
+            tloc = tloc->next;
+            location = location -> next;
+        }
 
+    }
+    return;
 }
 void  UnsortedType::ResetList(){
     currentPos = listData;
@@ -158,24 +156,13 @@ UnsortedType::UnsortedType(const UnsortedType& other){
 
 void UnsortedType::deleteList(){
     
-    if(isEmpty()){
-        // do nothing
-    }
-    else{
-        NodeType* temp1 = listData;
-        NodeType* temp2 = NULL;
-        
-        if(temp1 -> next != NULL) // if there is at least 1 element in the list, utilize temp2, otherwise there is no need
-            temp2 = temp1 -> next;
-        
-        
-        while(temp1 -> next!= NULL){
-            delete temp1;
-            temp1 = temp2;
-            listData = temp2;
-            if(temp2 != NULL) // if temp 2 isnt already pointing at the last element, move it up
-                temp2 = temp2 -> next;
-        }
+    NodeType *location = listData;
+    while (location != NULL)
+    {
+        listData = location->next;
+        delete location;
+        length--;
+        location = listData;
     }
 }
 

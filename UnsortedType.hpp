@@ -48,6 +48,7 @@ private :
     void deleteList();
     // Checks if an item exists in list, int stores the index
     bool   itemExists(const ItemType&, int&);
+    bool isEmpty(); // checks if list is already empty
 
 } ;
 

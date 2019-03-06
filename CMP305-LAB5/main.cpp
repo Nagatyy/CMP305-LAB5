@@ -1,12 +1,14 @@
 #include <iostream>
 #include "UnsortedType.hpp"
 
+
+
 int main() {
-    
+
     UnsortedType list1;  //[2 1]
     UnsortedType list2;  // [5 4 3 2 1]
     UnsortedType list3;
-    
+
     for(int i = 1; i <= 2; i++)
         list1.InsertItem(i);
     for (int i = 1; i <= 5; i++) {
@@ -17,18 +19,23 @@ int main() {
     std::cout << "List 2: ";
     list2.printList();
 
-    
+
     list3 = list1 & list2;
-    
+
     std::cout << "& between list 1 and 2: ";
     list3.printList();
-    
+
     list3 = list1 | list2;
-    
+
     std::cout << "| between list 1 and 2: ";
     list3.printList();
 
-    
+    list3.MakeEmpty();
+
+    list3.printList();
+    std::cout << list3.Length();
+
+
 
     return 0;
 }

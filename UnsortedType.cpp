@@ -157,18 +157,25 @@ UnsortedType::UnsortedType(const UnsortedType& other){
 }
 
 void UnsortedType::deleteList(){
-    NodeType* temp1 = listData;
-    NodeType* temp2 = NULL;
     
-    if(temp1!= NULL) // if there is at least 1 element in the list, utilize temp2, otherwise there is no need
-        temp2 = temp1 -> next;
-    
-    
-    while(temp1!= NULL){
-        delete temp1;
-        temp1 = temp2;
-        if(temp2 != NULL) // if temp 2 isnt already pointing at the last element, move it up
-            temp2 = temp2 -> next;
+    if(isEmpty()){
+        // do nothing
+    }
+    else{
+        NodeType* temp1 = listData;
+        NodeType* temp2 = NULL;
+        
+        if(temp1 -> next != NULL) // if there is at least 1 element in the list, utilize temp2, otherwise there is no need
+            temp2 = temp1 -> next;
+        
+        
+        while(temp1 -> next!= NULL){
+            delete temp1;
+            temp1 = temp2;
+            listData = temp2;
+            if(temp2 != NULL) // if temp 2 isnt already pointing at the last element, move it up
+                temp2 = temp2 -> next;
+        }
     }
 }
 
@@ -192,6 +199,10 @@ UnsortedType UnsortedType::operator =(const UnsortedType& other){
         }
     }
     return *this;
+}
+
+bool UnsortedType::isEmpty(){ // checks if list is already empty
+    return listData == NULL;
 }
 
 

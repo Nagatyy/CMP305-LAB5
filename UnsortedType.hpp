@@ -19,6 +19,8 @@ public:
     UnsortedType operator = (const UnsortedType&);
     // destructor
     ~UnsortedType();
+    // Copy Constructor
+    UnsortedType(const UnsortedType&);   // WAS NEEDED FOR TESTING. NOT WRITTEN BY US. TAKEN FROM STACK E.
     void   MakeEmpty();
     bool   IsFull()  const;
     int    Length()  const;
@@ -27,10 +29,11 @@ public:
     void   DeleteItem(ItemType  item);
     void   ResetList();
     void   GetNextItem(ItemType&  item);
-    bool   itemExists(const ItemType&, int&);
+    
     
     // print list for testing
     void printList();
+    
     
     // friend functions for exercise 2
     friend UnsortedType operator & (const UnsortedType&, const UnsortedType&);
@@ -41,6 +44,11 @@ private :
     NodeType*  listData;
     int length;
     NodeType*  currentPos;
+    // deletes all elements in the list
+    void deleteList();
+    // Checks if an item exists in list, int stores the index
+    bool   itemExists(const ItemType&, int&);
+
 } ;
 
 

@@ -7,43 +7,16 @@ UnsortedType::UnsortedType(){
     currentPos = listData;;
     
 }
-// assignment operator =
-UnsortedType UnsortedType::operator =(const UnsortedType& other){
-    // first we check for self assignment
-    if(this == &other)
-        return *this;
-    // COMPLETE
-    
-    if(other.length > 0){
-        NodeType* temp = other.listData;
-        
-        listData = NULL;
-        length = 0;
-        currentPos = other.currentPos;
-        for(int i = 0; i < other.length; i++){
-            InsertItem(temp -> info);
-            temp = temp -> next;
-        }
-    }
-    return *this;
-}
 // destructor
 UnsortedType::~UnsortedType(){
-    NodeType* temp1 = listData;
-    NodeType* temp2 = NULL;
-    
-    if(temp1!= NULL) // if there is at least 1 element in the list, utilize temp2, otherwise there is no need
-        temp2 = temp1 -> next;
-
-    
-    while(temp1!= NULL){
-        delete temp1;
-        temp1 = temp2;
-        if(temp2 != NULL) // if temp 2 isnt already pointing at the last element, move it up
-            temp2 = temp2 -> next;
-    }
+    deleteList();
 }
 void  UnsortedType::MakeEmpty(){
+    
+    deleteList();
+    length = 0;
+    listData = NULL;
+    currentPos = listData;
     
 }
 bool  UnsortedType::IsFull() const{
@@ -51,6 +24,7 @@ bool  UnsortedType::IsFull() const{
     NodeType* temp = new NodeType;
     if(temp == NULL)
         return true;
+    delete temp;
     return false;
 }
 int   UnsortedType::Length() const{
@@ -84,8 +58,8 @@ void  UnsortedType::InsertItem(ItemType item){
         listData = temp;
         length++;
     }
-    else
-        std::cout << "Innsertion failed. Item already exists...\n";
+    //else
+        //std::cout << "Innsertion failed. Item already exists...\n";
     
 }
 void  UnsortedType::DeleteItem(ItemType item){
@@ -97,12 +71,20 @@ void  UnsortedType::DeleteItem(ItemType item){
     if(found){
         NodeType* temp = listData;
         
-        while(temp -> next -> info != item) // keep looping and stop temp BEFORE the node with the item we will delete
-            temp = temp -> next;
+        // Extreme Case 1: If there is only 1 item in the list (code below throws error if this is not checked)
+        if(temp -> next == NULL){
+            MakeEmpty();
+        }
         
-        // now that temp is pointing at the item BEFORE the one we will deleted:
-        temp -> next = temp -> next -> next;
-        length--;
+        else{
+            while(temp -> next -> info != item) // keep looping and stop temp BEFORE the node with the item we will delete
+                temp = temp -> next;
+            
+            // now that temp is pointing at the item BEFORE the one we will deleted:
+            temp -> next = temp -> next -> next;
+            delete temp;
+            length--;
+        }
         
     }
     else
@@ -156,4 +138,61 @@ void  UnsortedType::printList(){
     std::cout << "]\n";
 
 }
+
+UnsortedType::UnsortedType(const UnsortedType& other){
+    
+    if(other.listData == nullptr) return;
+    NodeType* dummyHead = new NodeType;
+    NodeType* curr = dummyHead;
+    NodeType* othcurr = other.listData;
+    for(; othcurr!=nullptr; othcurr = othcurr->next)
+    {
+        curr->next = new NodeType;
+        curr = curr->next;
+        curr->next = nullptr;
+    }
+    listData = dummyHead->next;
+    delete dummyHead;
+
+}
+
+void UnsortedType::deleteList(){
+    NodeType* temp1 = listData;
+    NodeType* temp2 = NULL;
+    
+    if(temp1!= NULL) // if there is at least 1 element in the list, utilize temp2, otherwise there is no need
+        temp2 = temp1 -> next;
+    
+    
+    while(temp1!= NULL){
+        delete temp1;
+        temp1 = temp2;
+        if(temp2 != NULL) // if temp 2 isnt already pointing at the last element, move it up
+            temp2 = temp2 -> next;
+    }
+}
+
+
+// assignment operator =
+UnsortedType UnsortedType::operator =(const UnsortedType& other){
+    // first we check for self assignment
+    if(this == &other)
+        return *this;
+    
+    if(other.length > 0){
+        NodeType* temp = other.listData;
+        
+        listData = NULL;
+        length = 0;
+        currentPos = other.currentPos;
+        
+        for(int i = 0; i < other.length; i++){
+            InsertItem(temp -> info);
+            temp = temp -> next;
+        }
+    }
+    return *this;
+}
+
+
 

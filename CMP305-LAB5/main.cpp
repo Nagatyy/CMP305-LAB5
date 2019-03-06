@@ -29,6 +29,17 @@ int main() {
 
     std::cout << "| between list 1 and 2: ";
     list3.printList();
+    
+    list1.MakeEmpty();
+    list2.MakeEmpty();
+    
+    list1.InsertItem(1);
+    list2.InsertItem(1);
+
+    
+    list3 = list1 & list2;
+    
+    list3.printList();
 
     return 0;
 }
@@ -39,27 +50,23 @@ int main() {
  since insertion checks for duplicates, we can insert all w/o issues
  ----*/
 UnsortedType operator | (const UnsortedType& list1, const UnsortedType& list2){
-    UnsortedType returnedList;
-    NodeType* temp;
-    ItemType current;
     
-    temp = list1.listData;
     
-    for(int i = 0; i < list1.length; i++){
-        current = temp -> info;
-        returnedList.InsertItem(current);
-        temp = temp-> next;
+    NodeType *l1, *l2;
+    l1 = list1.listData;
+    l2 = list2.listData;
+    UnsortedType list;
+    while (l1 != NULL)
+    {
+        list.InsertItem(l1->info);
+        l1 = l1->next;
     }
-    
-    temp = list2.listData;
-
-    for(int i = 0; i < list2.length; i++){
-        current = temp -> info;
-        returnedList.InsertItem(current);
-        temp = temp-> next;
+    while (l2 != NULL)
+    {
+        list.InsertItem(l2->info);
+        l2 = l2->next;
     }
-
-    return returnedList;
+    return list;
     
 }
 /* we will create a new list called returnedList, mean while we will loop through the shorter list
@@ -68,31 +75,20 @@ UnsortedType operator | (const UnsortedType& list1, const UnsortedType& list2){
  */
 
 UnsortedType operator & (const UnsortedType& list1, const UnsortedType& list2){
-    UnsortedType returnedList;
-    UnsortedType shorterList;
-    UnsortedType longerList;
-    NodeType* temp;
-    ItemType current;
-    int holder;
-
-//    first we determine which of the 2 lists is shorter and longer
-    if(list1.length < list2.length){
-        shorterList = list1;
-        longerList = list2;
-    }
-    else{
-        shorterList = list2;
-        longerList = list1;
-    }
-    
-    temp = shorterList.listData;
-    
-    for(int i = 0; i < shorterList.length; i++){
-        current = temp -> info;
-        if(longerList.itemExists(current, holder))// if the item from the shorter list exists in the longer list, add it to returned list
-            returnedList.InsertItem(current);
+    NodeType *l1, *l2;
+    l1 = list1.listData;
+    UnsortedType list;
+    while (l1 != NULL)
+    {
+        l2 = list2.listData;
+        while (l2 != NULL)
+        {
+            if (l1->info == l2->info)
+                list.InsertItem(l1->info);
+            l2 = l2->next;
+        }
+        l1 = l1->next;
         
-        temp = temp-> next;
     }
-    return returnedList;
+    return list;
 }

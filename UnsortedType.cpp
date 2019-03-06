@@ -13,7 +13,8 @@ UnsortedType::~UnsortedType(){
 }
 void  UnsortedType::MakeEmpty(){
     
-    deleteList();
+    if(!isEmpty())
+        deleteList();
     currentPos = listData;
     
 }
@@ -156,13 +157,15 @@ UnsortedType::UnsortedType(const UnsortedType& other){
 
 void UnsortedType::deleteList(){
     
-    NodeType *location = listData;
-    while (location != NULL)
-    {
-        listData = location->next;
-        delete location;
-        length--;
-        location = listData;
+    if(!isEmpty()){
+        NodeType *location = listData;
+        while (location != NULL)
+        {
+            listData = location->next;
+            delete location;
+            length--;
+            location = listData;
+        }
     }
 }
 
@@ -172,6 +175,8 @@ UnsortedType UnsortedType::operator =(const UnsortedType& other){
     // first we check for self assignment
     if(this == &other)
         return *this;
+    if(!isEmpty())
+        MakeEmpty();
     
     if(other.length > 0){
         NodeType* temp = other.listData;
